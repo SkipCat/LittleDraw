@@ -1,4 +1,4 @@
-package com.caira.clement.littledrawjava;
+package com.caira.clement.littleDraw;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.caira.clement.littledrawjava", appContext.getPackageName());
+        assertEquals("com.caira.clement.littleDraw", appContext.getPackageName());
     }
 }
