@@ -1,4 +1,4 @@
-package com.caira.clement.littledrawjava;
+package com.caira.clement.littleDraw;
 
 import org.junit.Test;
 
