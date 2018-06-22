@@ -5,13 +5,13 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
 public class DrawingView extends View {
 
-    private boolean isSetup = false;
     private Path drawPath;
     private Paint drawPaint, canvasPaint;
     int paintColor = 0xFF660000;
@@ -20,6 +20,22 @@ public class DrawingView extends View {
 
     public DrawingView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        setupDrawing();
+    }
+
+    public DrawingView(Context context) {
+        super(context);
+        setupDrawing();
+    }
+
+    public DrawingView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+        setupDrawing();
+    }
+
+    public DrawingView(Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+        super(context, attrs, defStyleAttr, defStyleRes);
+        setupDrawing();
     }
 
     protected void setupDrawing() {
@@ -33,7 +49,6 @@ public class DrawingView extends View {
         drawPaint.setStrokeCap(Paint.Cap.ROUND); // Transforms extremities into round
 
         canvasPaint = new Paint(Paint.DITHER_FLAG); // Canvas
-        isSetup = true;
     }
 
     @Override
@@ -46,9 +61,6 @@ public class DrawingView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        if (!isSetup) {
-            setupDrawing();
-        }
 
         // Initialising drawing zone
         canvas.drawBitmap(canvasBitmap, 0, 0, canvasPaint);
