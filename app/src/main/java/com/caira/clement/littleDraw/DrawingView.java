@@ -14,7 +14,7 @@ public class DrawingView extends View {
 
     private Path drawPath;
     private Paint drawPaint, canvasPaint;
-    int paintColor = 0xFF660000;
+    int paintColor = 0xFF000000; // 0xFF + hexa color code
     private Canvas drawCanvas;
     private Bitmap canvasBitmap;
 
@@ -39,7 +39,7 @@ public class DrawingView extends View {
     }
 
     protected void setupDrawing() {
-        // Initialising paintbrush
+        // Initializing paintbrush
         drawPath = new Path();
         drawPaint = new Paint();
         drawPaint.setColor(paintColor);
@@ -62,7 +62,7 @@ public class DrawingView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        // Initialising drawing zone
+        // Initializing drawing zone
         canvas.drawBitmap(canvasBitmap, 0, 0, canvasPaint);
         canvas.drawPath(drawPath, drawPaint);
     }
