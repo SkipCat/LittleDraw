@@ -2,60 +2,74 @@ package com.caira.clement.littleDraw;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageButton;
 
-public class ColorDialog extends DialogFragment { // android.app or android.app.support.v4 ?
+public class ColorDialog extends DialogFragment implements View.OnClickListener {
 
     ImageButton blackBtn;
     ImageButton blueBtn;
     ImageButton pinkBtn;
 
-    public interface OnColorChangedListener {
-        void colorChanged(int color);
+    private OnColorPickedListener listener;
+
+    public interface OnColorPickedListener {
+        void onColorPicked(int color);
     }
 
-    private OnColorChangedListener colorListener;
-    private int initialColor;
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.black_btn:
+                listener.onColorPicked(Color.BLACK);
+                break;
+            case R.id.blue_btn:
+                listener.onColorPicked(Color.BLUE);
+                break;
+            case R.id.pink_btn:
+                listener.onColorPicked(Color.MAGENTA);
+                break;
+            default:
+                listener.onColorPicked(Color.BLACK);
+        }
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        this.listener = (OnColorPickedListener) getActivity();
+    }
+
+    @Override
+    public void onDetach() {
+        this.listener = null;
+        super.onDetach();
+    }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        System.out.println("in onCreateDialog");
         super.onCreateDialog(savedInstanceState);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Pick a color");
-        builder.setView(R.layout.color_dialog);
+
+        LayoutInflater inflater = LayoutInflater.from(getActivity());
+        View view = inflater.inflate(R.layout.color_dialog, null, false);
+        builder.setView(view);
+
+        blackBtn = view.findViewById(R.id.black_btn);
+        blackBtn.setOnClickListener(this);
+        blueBtn = view.findViewById(R.id.blue_btn);
+        blueBtn.setOnClickListener(this);
+        pinkBtn = view.findViewById(R.id.pink_btn);
+        pinkBtn.setOnClickListener(this);
 
         return builder.create();
     }
-
-    /*
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        blackBtn = findViewById(R.id.black_btn);
-        blackBtn.setOnClickListener(colorBtnHandler);
-        blueBtn = findViewById(R.id.blue_btn);
-        blueBtn.setOnClickListener(colorBtnHandler);
-        pinkBtn = findViewById(R.id.pink_btn);
-        pinkBtn.setOnClickListener(colorBtnHandler);
-    }
-    */
-
-    /*
-    View.OnClickListener colorBtnHandler = new View.OnClickListener() {
-        public void onClick(View v) {
-            System.out.println("test");
-        }
-    };
-    */
 
 }
