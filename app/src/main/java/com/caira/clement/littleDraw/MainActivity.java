@@ -6,9 +6,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ColorDialog.OnColorPickedListener {
 
     ImageButton colorBtn;
+    private ColorDialog colorDialog;
+    private DrawingView drawingView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,14 +20,21 @@ public class MainActivity extends AppCompatActivity {
 
         colorBtn = findViewById(R.id.color_btn);
         colorBtn.setOnClickListener(colorPickerHandler);
+
+        drawingView = findViewById(R.id.drawing);
     }
 
     View.OnClickListener colorPickerHandler = new View.OnClickListener() {
         public void onClick(View v) {
             FragmentManager fm = MainActivity.this.getSupportFragmentManager();
-            ColorDialog colorDialog = new ColorDialog();
+            colorDialog = new ColorDialog();
             colorDialog.show(fm, null);
         }
     };
 
+    @Override
+    public void onColorPicked(int color) {
+        colorDialog.dismiss();
+        drawingView.changeColor(color);
+    }
 }
