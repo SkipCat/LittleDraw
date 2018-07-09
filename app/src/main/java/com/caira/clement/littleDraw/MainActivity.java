@@ -25,6 +25,11 @@ import java.io.OutputStream;
 import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity implements ColorDialog.OnColorPickedListener {
+public class MainActivity extends AppCompatActivity implements ColorDialog.OnColorPickedListener {
+
+    ImageButton colorBtn;
+    private ColorDialog colorDialog;
+    private DrawingView drawingView;
 
     private ImageButton brushBtn;
     private ImageButton saveBtn;
@@ -53,6 +58,8 @@ public class MainActivity extends AppCompatActivity implements ColorDialog.OnCol
 
         rubberBtn = findViewById(R.id.rubber_btn);
         rubberBtn.setOnClickListener(rubberHandler);
+
+        drawingView = findViewById(R.id.drawing);
     }
 
     View.OnClickListener brushHandler = new View.OnClickListener(){

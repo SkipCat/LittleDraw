@@ -54,7 +54,7 @@ public class DrawingView extends View {
 
         drawPaint.setColor(0xFF000000); // 0xFF + hexa color code
         oldColor = 0xFF000000;
-
+      
         drawPaint.setStrokeWidth(30);
         drawPaint.setStyle(Paint.Style.STROKE);
         drawPaint.setStrokeJoin(Paint.Join.ROUND); // Transforms intersection into round
