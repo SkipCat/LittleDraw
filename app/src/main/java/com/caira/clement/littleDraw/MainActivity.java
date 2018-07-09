@@ -26,8 +26,11 @@ import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity implements ColorDialog.OnColorPickedListener {
 
+    private ImageButton brushBtn;
     private ImageButton saveBtn;
-    ImageButton colorBtn;
+    private ImageButton colorBtn;
+    private ImageButton rubberBtn;
+
     private ColorDialog colorDialog;
     private DrawingView drawingView;
 
@@ -37,15 +40,32 @@ public class MainActivity extends AppCompatActivity implements ColorDialog.OnCol
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
-
-        saveBtn = findViewById(R.id.save_btn);
-        colorBtn = findViewById(R.id.color_btn);
-        saveBtn.setOnClickListener(saveBtnHandler);
-        colorBtn.setOnClickListener(colorPickerHandler);
-
         drawingView = findViewById(R.id.drawing);
 
+        saveBtn = findViewById(R.id.save_btn);
+        saveBtn.setOnClickListener(saveBtnHandler);
+
+        colorBtn = findViewById(R.id.color_btn);
+        colorBtn.setOnClickListener(colorPickerHandler);
+
+        brushBtn = findViewById(R.id.brush_btn);
+        brushBtn.setOnClickListener(brushHandler);
+
+        rubberBtn = findViewById(R.id.rubber_btn);
+        rubberBtn.setOnClickListener(rubberHandler);
     }
+
+    View.OnClickListener brushHandler = new View.OnClickListener(){
+        public void onClick(View view) {
+            drawingView.disableErase();
+        }
+    };
+
+    View.OnClickListener rubberHandler = new View.OnClickListener(){
+        public void onClick(View view) {
+            drawingView.enableErase();
+        }
+    };
 
     View.OnClickListener colorPickerHandler = new View.OnClickListener() {
         public void onClick(View v) {
@@ -55,14 +75,12 @@ public class MainActivity extends AppCompatActivity implements ColorDialog.OnCol
         }
     };
 
-
-
     View.OnClickListener saveBtnHandler = new View.OnClickListener() {
-
         public void onClick(View v) {
             drawingView.setDrawingCacheEnabled(true);
             OutputStream fOut = null;
             Bitmap drawingBM = drawingView.getDrawingCache();
+
             try {
                 if (drawingBM != null) {
                     File mediaDirectory = new File(Environment.getExternalStorageDirectory().getPath()
@@ -78,7 +96,6 @@ public class MainActivity extends AppCompatActivity implements ColorDialog.OnCol
 
                     bos.flush();
                     bos.close();
-
 
                     Toast savedToast = Toast.makeText(getApplicationContext(),
                             "Drawing saved to Gallery!", Toast.LENGTH_SHORT);
