@@ -10,13 +10,18 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class DrawingView extends View {
 
     private Path drawPath;
     private Paint drawPaint, canvasPaint;
-    int paintColor = 0xFF660000;
     private Canvas drawCanvas;
     private Bitmap canvasBitmap;
+
+    private ArrayList<Path> paths = new ArrayList<>();
+    private ArrayList<Paint> paints = new ArrayList<>();
 
     public DrawingView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -33,22 +38,34 @@ public class DrawingView extends View {
         setupDrawing();
     }
 
-    public DrawingView(Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
-        setupDrawing();
-    }
-
     protected void setupDrawing() {
-        // Initialising paintbrush
+        // Initializing paintbrush
         drawPath = new Path();
+        paths.add(drawPath);
         drawPaint = new Paint();
-        drawPaint.setColor(paintColor);
+        paints.add(drawPaint);
+
+        drawPaint.setColor(0xFF000000); // 0xFF + hexa color code
         drawPaint.setStrokeWidth(30);
         drawPaint.setStyle(Paint.Style.STROKE);
         drawPaint.setStrokeJoin(Paint.Join.ROUND); // Transforms intersection into round
         drawPaint.setStrokeCap(Paint.Cap.ROUND); // Transforms extremities into round
 
         canvasPaint = new Paint(Paint.DITHER_FLAG); // Canvas
+    }
+
+    public void changeColor(int color) {
+        Path newPath = new Path();
+        Paint newPaint = new Paint();
+
+        newPaint.setColor(color);
+        newPaint.setStrokeWidth(30);
+        newPaint.setStyle(Paint.Style.STROKE);
+        newPaint.setStrokeJoin(Paint.Join.ROUND); // Transforms intersection into round
+        newPaint.setStrokeCap(Paint.Cap.ROUND); // Transforms extremities into round
+
+        paths.add(newPath);
+        paints.add(newPaint);
     }
 
     @Override
@@ -62,9 +79,12 @@ public class DrawingView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        // Initialising drawing zone
+        // Initializing drawing zone
         canvas.drawBitmap(canvasBitmap, 0, 0, canvasPaint);
-        canvas.drawPath(drawPath, drawPaint);
+
+        for (int i = 0; i < paths.size(); i ++) {
+            canvas.drawPath(paths.get(i), paints.get(i));
+        }
     }
 
     @Override
@@ -72,16 +92,14 @@ public class DrawingView extends View {
         float touchX = event.getX();
         float touchY = event.getY();
 
+        Path path = paths.get(paths.size() - 1);
+
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                drawPath.moveTo(touchX, touchY);
+                path.moveTo(touchX, touchY);
                 break;
             case MotionEvent.ACTION_MOVE:
-                drawPath.lineTo(touchX, touchY);
-                break;
-            case MotionEvent.ACTION_UP:
-                drawCanvas.drawPath(drawPath, drawPaint);
-                drawPath.reset();
+                path.lineTo(touchX, touchY);
                 break;
             default:
                 return false;
