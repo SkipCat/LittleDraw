@@ -6,16 +6,11 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffXfermode;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
-
 import java.util.ArrayList;
-import java.util.List;
 
 public class DrawingView extends View {
 
@@ -77,6 +72,13 @@ public class DrawingView extends View {
 
         paths.add(newPath);
         paints.add(newPaint);
+    }
+
+    public void deleteDraw(){
+        paths.clear();
+        paints.clear();
+        invalidate();
+        setupDrawing();
     }
 
     public void enableErase(){

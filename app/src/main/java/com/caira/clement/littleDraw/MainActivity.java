@@ -1,19 +1,12 @@
 package com.caira.clement.littleDraw;
 
-import android.Manifest;
-import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
-import android.provider.MediaStore;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -30,6 +23,7 @@ public class MainActivity extends AppCompatActivity implements ColorDialog.OnCol
     private ImageButton saveBtn;
     private ImageButton colorBtn;
     private ImageButton rubberBtn;
+    private ImageButton deleteBtn;
 
     private ColorDialog colorDialog;
     private DrawingView drawingView;
@@ -44,6 +38,9 @@ public class MainActivity extends AppCompatActivity implements ColorDialog.OnCol
 
         setContentView(R.layout.activity_main);
         drawingView = findViewById(R.id.drawing);
+
+        deleteBtn = findViewById(R.id.delete_btn);
+        deleteBtn.setOnClickListener(deleteBtnHandler);
 
         saveBtn = findViewById(R.id.save_btn);
         saveBtn.setOnClickListener(saveBtnHandler);
@@ -69,6 +66,12 @@ public class MainActivity extends AppCompatActivity implements ColorDialog.OnCol
     View.OnClickListener rubberHandler = new View.OnClickListener(){
         public void onClick(View view) {
             drawingView.enableErase();
+        }
+    };
+
+    View.OnClickListener deleteBtnHandler = new View.OnClickListener(){
+        public void onClick(View view) {
+            drawingView.deleteDraw();
         }
     };
 

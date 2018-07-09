@@ -57,6 +57,14 @@
             android:adjustViewBounds="true"
             android:src="@drawable/save" />
 
+        <ImageButton
+            android:id="@+id/delete_btn"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            android:src="@drawable/delete" />
+
     </LinearLayout>
 
 </LinearLayout>
