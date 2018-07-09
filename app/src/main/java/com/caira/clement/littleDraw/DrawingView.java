@@ -3,10 +3,14 @@ package com.caira.clement.littleDraw;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -19,6 +23,9 @@ public class DrawingView extends View {
     private Paint drawPaint, canvasPaint;
     private Canvas drawCanvas;
     private Bitmap canvasBitmap;
+
+    private int colorBeforeErase;
+    private int oldColor;
 
     private ArrayList<Path> paths = new ArrayList<>();
     private ArrayList<Paint> paints = new ArrayList<>();
@@ -46,6 +53,8 @@ public class DrawingView extends View {
         paints.add(drawPaint);
 
         drawPaint.setColor(0xFF000000); // 0xFF + hexa color code
+        oldColor = 0xFF000000;
+      
         drawPaint.setStrokeWidth(30);
         drawPaint.setStyle(Paint.Style.STROKE);
         drawPaint.setStrokeJoin(Paint.Join.ROUND); // Transforms intersection into round
@@ -59,6 +68,8 @@ public class DrawingView extends View {
         Paint newPaint = new Paint();
 
         newPaint.setColor(color);
+        oldColor = color;
+
         newPaint.setStrokeWidth(30);
         newPaint.setStyle(Paint.Style.STROKE);
         newPaint.setStrokeJoin(Paint.Join.ROUND); // Transforms intersection into round
@@ -66,6 +77,15 @@ public class DrawingView extends View {
 
         paths.add(newPath);
         paints.add(newPaint);
+    }
+
+    public void enableErase(){
+        colorBeforeErase = oldColor;
+        changeColor(Color.WHITE);
+    }
+
+    public void disableErase() {
+        changeColor(colorBeforeErase);
     }
 
     @Override

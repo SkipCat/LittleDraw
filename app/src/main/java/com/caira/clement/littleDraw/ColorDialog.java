@@ -12,9 +12,9 @@ import android.widget.ImageButton;
 
 public class ColorDialog extends DialogFragment implements View.OnClickListener {
 
-    ImageButton blackBtn;
-    ImageButton blueBtn;
-    ImageButton pinkBtn;
+    private ImageButton blackBtn;
+    private ImageButton blueBtn;
+    private ImageButton pinkBtn;
 
     private OnColorPickedListener listener;
 
@@ -64,8 +64,10 @@ public class ColorDialog extends DialogFragment implements View.OnClickListener 
 
         blackBtn = view.findViewById(R.id.black_btn);
         blackBtn.setOnClickListener(this);
+
         blueBtn = view.findViewById(R.id.blue_btn);
         blueBtn.setOnClickListener(this);
+
         pinkBtn = view.findViewById(R.id.pink_btn);
         pinkBtn.setOnClickListener(this);
 
